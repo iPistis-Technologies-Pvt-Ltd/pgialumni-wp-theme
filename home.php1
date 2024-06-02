@@ -1,0 +1,225 @@
+<?php /*
+
+
+
+Template Name: Home page
+
+
+
+*/?>
+
+<?php get_header();  ?>
+
+<div class="content">
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8">
+
+          <div class="banner">
+
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+              <div class="carousel-inner" role="listbox">
+
+ <?php
+
+$slider_array = get_posts(
+
+array(
+
+//'posts_per_page' => 5,
+
+'post_type' => 'ipt_home_slider',
+
+)
+
+);
+
+?>
+
+      <?php
+
+
+
+		$i=0;
+
+
+
+        foreach ( $slider_array as $post ) : setup_postdata( $post );
+
+
+
+		$i=$i+1;
+
+
+
+		if($i=='1'){
+
+
+
+			$sliderclass="item active";
+
+
+
+		}
+
+
+
+		else{
+
+
+
+			$sliderclass="item";
+
+
+
+		}
+
+
+
+		?>
+
+                <div class="<?php echo $sliderclass; ?>"> <img src="<?php $large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' ); echo $large_image_url[0]; ?>"> </div>
+
+                
+
+                <?php endforeach;  wp_reset_postdata(); ?>
+
+               
+
+              </div>
+
+              <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"> <span class="prev" aria-hidden="true"><img src="<?php bloginfo('stylesheet_directory'); ?>/image/prev.jpg"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"> <span class="next" aria-hidden="true"><img src="<?php bloginfo('stylesheet_directory'); ?>/image/next.jpg"></span> <span class="sr-only">Next</span> </a> </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+          <?php include('login.php'); ?>
+
+        </div>
+
+        <div class="clearfix"></div>
+
+        <br>
+
+        <br>
+
+        <div class="col-md-4">
+
+          <div class="white portal"> <?php echo get_the_post_thumbnail( 14, 'full' );?>
+
+            <div class="plc">
+
+              <h4><b><?php echo get_the_title(14); ?></b></h4>
+
+              <p><?php $page_id = 14;  $page_data = get_page( $page_id );  
+
+			$cont = $page_data->post_content; echo mb_strimwidth($cont, 0, 240, '...');?>
+
+			</p>
+
+              <a href="<?php echo get_permalink(14); ?>">Read More</a>
+
+              <div class="clearfix"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+          <div class="white news"> <span class="head">Latest News</span>
+
+            <div class="clearfix"></div>
+
+            <ul>
+
+			<?php
+
+$news_array = get_posts(
+
+array(
+
+'posts_per_page' => -1,
+
+'post_type' => 'ipt_news',
+
+'order' => 'desc',
+
+)
+
+);
+
+?>
+
+ <?php foreach ( $news_array as $post ) : setup_postdata( $post ); ?>
+
+              <li><?php echo get_the_post_thumbnail( $page->ID,'full'); ?> <a href="<?php echo get_permalink($post->ID );?>"><?php  $title=$post->post_title; echo mb_strimwidth($title, 0, 50, '..');?> <span class="date">- <?php  echo mysql2date('F j, Y ', $post->post_date);(''); ?></span>
+
+                <div class="clearfix"></div>
+
+              </a></li>
+
+              
+
+              <?php endforeach;  wp_reset_postdata(); ?>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+          <div class="other">
+
+            <ul>
+
+              <li>Photo Gallery</li>
+
+			  <?php
+
+$news_array = get_posts(
+
+array(
+
+'posts_per_page' => 4,
+
+'post_type' => 'ipt_home_navigation',
+
+'order' => 'asc',
+
+)
+
+);
+
+?>
+
+<?php foreach ( $news_array as $post ) : setup_postdata( $post ); ?>
+
+              <li><a href="<?php echo get_permalink($post->ID );?>"><?php echo $post->post_title; ?></a></li>
+
+              <?php endforeach;  wp_reset_postdata(); ?>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <?php get_footer();  ?>
