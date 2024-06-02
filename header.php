@@ -16,7 +16,17 @@
 <!--<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/vendor/nice-select/nice-select.css" media="all" />-->
 <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/vendor/js-offcanvas/css/js-offcanvas.css" media="all" />
 <script src="<?php echo get_template_directory_uri(); ?>/assets/vendor/modernizr/modernizr-custom.js"></script>
-<?php wp_head(); ?>
+<?php wp_head();
+// WP Session Management
+$wpuserid = get_current_user_id();
+if (empty($_SESSION['user_id']) && empty($wpuserid)) {
+} else if(empty($_SESSION['user_id']) && $wpuserid){
+  wp_logout();
+} else if(empty($wpuserid) && $_SESSION['user_id']){
+  @session_destroy();
+}
+// WP Session Management
+?>
 <link id="cbx-style" data-layout="1" rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/style-default.min.css" media="all" />
 </head>
 <body <?php body_class(); ?>>
