@@ -19,12 +19,32 @@
 <?php wp_head();
 // WP Session Management
 $wpuserid = get_current_user_id();
+if ( current_user_can('administrator') ) {
+  // Nothing to do
+  } else {
 if (empty($_SESSION['user_id']) && empty($wpuserid)) {
-} else if(empty($_SESSION['user_id']) && $wpuserid){
+  // echo 'S';
+} else if(empty($_SESSION['user_id']) && !empty($wpuserid)){
   wp_logout();
-} else if(empty($wpuserid) && $_SESSION['user_id']){
+  // echo 'A';
+} else if(empty($wpuserid) && !empty($_SESSION['user_id'])){
+  // echo 'U';
   @session_destroy();
+} else {
+  // echo 'R';
 }
+  }
+  if(!empty($wpuserid)){
+    $profile = bbp_get_user_profile_edit_url( $wpuserid );
+    ?>
+<script>
+  jQuery(document).ready(function(){
+    console.log('Saurabh');
+    jQuery("body.members #buddypress").prepend('<div class="alert alert-success">Kindly complete your profile <a href="<?php echo $profile; ?>">here</a> to view complete details of other alumni members.</div>');
+  });
+</script>
+    <?php
+  }
 // WP Session Management
 ?>
 <link id="cbx-style" data-layout="1" rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/style-default.min.css" media="all" />

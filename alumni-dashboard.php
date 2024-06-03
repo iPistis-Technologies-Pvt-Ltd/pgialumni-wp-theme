@@ -13,18 +13,7 @@ if ($totalRows_user_deatil > 0) {
 }
 $title = get_title($row_get_user['title']);
 
-// Code for WP Login 
-$user = get_user_by('email', $row_get_user['email']);
-if (!$user) {
-} else {
- $creds = array(
-    'user_login'    => $user->user_login, // Use the user's login from the retrieved user object
-    'user_password' => $row_get_user['password'],
-    'remember'      => true
-);
-$user_signon = wp_signon($creds, false);   
-}
-// Code for WP Login 
+
 ?>
 <div class="banner" id="page-title-area" style="background-image:url(<?php echo $featured_img_url; ?>);">
     <div class="banner-bg">
