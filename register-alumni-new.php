@@ -58,7 +58,7 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="title">Title <span>*</span></label>
-                                <select id="title" class="form-control" name="title">
+                                <select id="title" class="form-control select2" name="title">
                                     <?php foreach (title() as $key => $val) { ?>
                                         <option value="<?php echo $val; ?>"><?php echo $val; ?></option>
                                     <?php  } ?>
@@ -110,7 +110,7 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label for="degree">Select any degree completed from PGIMER</label>
-                                    <select id="degree" class="form-select">
+                                    <select id="degree" class="form-select select2">
                                         <option value="">--</option>
                                         <?php record_set('degree_list', 'SELECT * FROM degree where cstatus = 1 order by id desc');
                                         if ($totalRows_degree_list > 0) {
@@ -127,7 +127,7 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label for="faculty">Select department you were related to at PGIMER <span>*</span></label>
-                                    <select id="faculty" class="form-select">
+                                    <select id="faculty" class="form-select select2">
                                         <?php record_set('department_list', 'SELECT * FROM departments where cstatus = 1 order by id desc');
                                         if ($totalRows_department_list > 0) {
                                             while ($result = mysqli_fetch_array($department_list)) { ?>
@@ -150,9 +150,8 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
                                 </div>
 
                                 <div class="col-md-6 form-group">
-                                    <label for="country">Residence Country <span>*</span></label>
-                                    <select onchange="membership_charge()" id="country" class="form-control">
-
+                                    <label for="country">Residence Country <span>*</span></label> <label class="saarccheck" style="float:right;" for="saarc"><input id="saarc" type="checkbox"> SAARC Countries?</label>
+                                    <select style="height: 39px;" onchange="membership_charge()" id="country" class="form-control">
                                         <?php foreach ($countrylist as $key => $val) { ?>
                                             <option value="<?php echo $val; ?>"><?php echo $val; ?></option>
                                         <?php  } ?>
@@ -306,6 +305,15 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
 
 <script>
     $(document).ready(function() {
+        $(".saarccheck").click(function(){
+            if ($('#saarc').prop('checked')) {
+                $("#country").html("");
+                $("#country").append('<option value="India">India</option><option value="Afghanistan">Afghanistan</option><option value="Bangladesh">Bangladesh</option><option value="Bhutan">Bhutan</option><option value="Maldives">Maldives</option><option value="Nepal">Nepal</option><option value="Sri-Lanka">Sri-Lanka</option>');
+                } else {
+                    $("#country").html("");
+                $("#country").append('<option value="India">India</option>');
+                }
+        });
         $(".cocode").keyup(function() {
             $("#numbererror").html("Select Country from Dropdown.");
             $("#number").focus();
@@ -356,7 +364,7 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
             var delegate_type = $("input[type='radio'][name='mtype']:checked").val();
         }
         var country = $("#country").val();
-        if (country == 'India') {
+        if (country == 'India' || country == 'Afghanistan' || country == 'Bangladesh' || country == 'Bhutan' || country == 'Maldives' || country == 'Nepal' || country == 'Sri-Lanka') {
             if ($('#inrcont').css("display") == "none") {
                 $('input[name="donate"]').prop("checked", false);
             }

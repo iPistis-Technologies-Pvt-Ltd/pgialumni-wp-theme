@@ -530,7 +530,7 @@ $title = get_title($row_get_user['title']);
             var membership = $('input[name="mtype"]:checked').val();
         }
         var userid = "<?php echo $_SESSION['user_id'] ?>";
-        <?php if ($row_get_user['country'] == 'India') { ?>
+        <?php if ($row_get_user['currency'] == 'INR') { ?>
             var charge = 5000;
         <?php } else { ?>
             var charge = 250;
